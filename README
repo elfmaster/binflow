@@ -1,0 +1,54 @@
+binflow v0.0.1
+
+This software is a re-design of ftrace (https://github.com/elfmaster/ftrace)
+which was somewhat popular but has some naive implementation qualities that
+make it slow, and not suitable for some applications. 
+
+binflow is much faster, and has better argument resolution and will be able
+to handle multi-threaded applications/processes. Currently it is only 30%
+complete and does not yet handle return values.
+
+Stay tuned. Here is an example of binflow tracing a binary that was compiled
+from the following source code:
+
+int f(int a, int b, int c)
+{
+	printf("%d, %d, %d\n", a, b, c);
+}
+
+int main(void)
+{
+	int j = 0;
+	int i;
+	char *ptr = strdup("Hello");
+	char buf[255];
+	strncpy(buf, "hello", 8);
+	printf("%s\n", buf);
+	printf("%s\n", ptr);
+	f(3, 2, 1);
+	for (i = 0; i < 3; i++)
+		f(1 + i, 2, 3 + i);
+}
+
+$ ./binflow -s -b ./test
+PLT_call@0x4005b4: __libc_start_main()
+LOCAL_call@0x4007ae: _init()
+LOCAL_call@0x4006d3: strdup("Hello")
+PLT_call@0x4006f3: strncpy((stack_t *)7fffef7a1c90, "hello", 0x8)
+PLT_call@0x400702: puts("hello")
+hello
+PLT_call@0x400711: puts("Hello")
+Hello
+LOCAL_call@0x400725: f(0x3, 0x2, 0x1)
+PLT_call@0x4006a3: printf("%d, %d, %d\n", 0x3, 0x2, 0x2)
+3, 2, 1
+LOCAL_call@0x40074f: f(0x1, 0x2, 0x3)
+PLT_call@0x4006a3: printf("%d, %d, %d\n", 0x1, 0x2, 0x2)
+1, 2, 3
+LOCAL_call@0x40074f: f(0x2, 0x2, 0x4)
+PLT_call@0x4006a3: printf("%d, %d, %d\n", 0x2, 0x2, 0x2)
+2, 2, 4
+LOCAL_call@0x40074f: f(0x3, 0x2, 0x5)
+PLT_call@0x4006a3: printf("%d, %d, %d\n", 0x3, 0x2, 0x2)
+3, 2, 5
+$
