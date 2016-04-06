@@ -16,3 +16,5 @@ disas.o:
 clean:
 	rm -f *.o binflow
 
+.PHONY: all clean
+
