@@ -318,7 +318,7 @@ char * build_arg_string(handle_t *h, branch_site_t *branch)
                         free(ptr_range);
                         strcat(str, ", ");
                         strcat(str, args[2]);
-			sprintf(tmp, "0x%llx", regs.rdx);
+			sprintf(tmp, "0x%llx", regs.rcx);
 			ptr_range = get_pointer_range_str(h, regs.rcx);
 			if (ptr_range == NULL)
 				args[3] = xstrdup(tmp);
