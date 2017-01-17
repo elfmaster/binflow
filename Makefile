@@ -1,6 +1,6 @@
 all: binflow
 binflow: main.o elf.o maps.o trace.o util.o disas.o 
-	gcc -g main.o elf.o maps.o trace.o util.o disas.o capstone/libcapstone.a -o binflow
+	gcc -g main.o elf.o maps.o trace.o util.o disas.o capstone-2.1.2/libcapstone.a -o binflow
 main.o:
 	gcc -g -c main.c
 elf.o:
