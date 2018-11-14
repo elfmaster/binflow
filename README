@@ -1,3 +1,11 @@
+DISCLAIMER: This software sucks, I wrote it in about a day, and never finished it. The code base is terrible!
+Feel free to use the code if it helps you, but realize that it was a half-baked prototype that I never completed.
+The idea is to write a version of github.com/elfmaster/ftrace that sets breakpoints instead of singlestepping naively.
+There is an even faster method which avoids the use of ptrace all together, and will be possible to write quite easily
+once this ul_exec_trace debugging functionality is added into github.com/elfmaster/libelfmaster
+
+With that said:
+
 binflow v0.0.1
 
 This software is a re-design of ftrace (https://github.com/elfmaster/ftrace)
