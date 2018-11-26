@@ -36,7 +36,6 @@
 
 #define DEFAULT_COLOR  "\x1B[0m"
 
-#define MAX_SYMS 8192 * 2
 
 /*
  * On 32bit systems should be set:
@@ -191,8 +190,8 @@ typedef struct handle {
 	elfdesc_t elf;
         branch_site_t branch_site[MAX_BRANCHES]; // XXX change to linked list
 	struct elf_section_range sh_range[MAX_SHDRS];
-        struct syms lsyms[MAX_SYMS];
-	struct syms dsyms[MAX_SYMS]; //dynamic syms
+        struct syms *lsyms;
+	struct syms *dsyms; //dynamic syms
         char *libnames[256];
         int lsc; //lsyms count
         int dsc; // dsyms count
